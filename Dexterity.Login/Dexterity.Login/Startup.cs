@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Dexterity.Login.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Dexterity.Login.BuiltInClients;
+using Dexterity.Login.BuiltInIdentityResources;
 
 namespace Dexterity.Login
 {
@@ -42,6 +44,11 @@ namespace Dexterity.Login
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddIdentityServer()
+                .AddInMemoryClients(DummyClientFactory.Get())
+                .AddInMemoryIdentityResources(DummyIdentityResourceFactory.Get())
+                .AddAspNetIdentity<IdentityUser>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -65,6 +72,8 @@ namespace Dexterity.Login
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseIdentityServer();
 
             app.UseMvc(routes =>
             {

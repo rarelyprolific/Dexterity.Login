@@ -1,9 +1,16 @@
-﻿
-@{
-    ViewData["Title"] = "Profile Page";
-}
+﻿@model ProfileViewModel
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+</div>
+
+<div class="text-left">
     <p>This is the profile page. This will show your user details and allow you to amend them. To get here we must be logged into the system.</p>
+
+    <h3>Claims</h3>
+    @foreach (KeyValuePair<string, string> claim in Model.Claims)
+    {
+        <span><strong>@claim.Key</strong> - @claim.Value</span>
+        <br />
+    }
 </div>

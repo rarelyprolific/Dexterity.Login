@@ -15,6 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Dexterity.Login.BuiltInClients;
 using Dexterity.Login.BuiltInIdentityResources;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authentication;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Dexterity.Login
 {
@@ -37,17 +40,41 @@ namespace Dexterity.Login
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Microsoft still thinks they know what’s best for you by mapping the OIDC standard claims to their proprietary ones.
+            // This is fixed elegantly by clearing the inbound claim type map on the Microsoft JWT token handler:
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            // (See https://leastprivilege.com/2017/11/15/missing-claims-in-the-asp-net-core-2-openid-connect-handler/ for more detail)
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            // We may just need AddIdentity here? Check it?
             services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                //.AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
                 .AddInMemoryClients(DummyClientFactory.Get())
                 .AddInMemoryIdentityResources(DummyIdentityResourceFactory.Get())
                 .AddAspNetIdentity<IdentityUser>();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+
+                    options.Authority = "https://localhost:5001";
+                    options.ClientId = "initialclient";
+                    //options.ResponseType = "code id_token";
+                });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -71,8 +98,7 @@ namespace Dexterity.Login
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
-
+            // app.UseAuthentication() is called implicitly by IdentityServer
             app.UseIdentityServer();
 
             app.UseMvc(routes =>

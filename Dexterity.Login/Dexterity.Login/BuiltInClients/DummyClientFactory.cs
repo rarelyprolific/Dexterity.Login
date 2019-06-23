@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using System.Collections.Generic;
 
 namespace Dexterity.Login.BuiltInClients
@@ -15,7 +16,17 @@ namespace Dexterity.Login.BuiltInClients
                 new Client
                 {
                     ClientId = "initialclient",
-                    ClientSecrets = { new Secret("initialclientsecret".Sha256())}
+                    ClientSecrets = { new Secret("initialclientsecret".Sha256())},
+
+                    AllowedGrantTypes = GrantTypes.Implicit,
+
+                    RedirectUris = { "https://localhost:5001/signin-oidc" },
+                    RequireConsent = false,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }

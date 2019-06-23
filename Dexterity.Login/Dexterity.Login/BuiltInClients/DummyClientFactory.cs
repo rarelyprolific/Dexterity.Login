@@ -25,8 +25,11 @@ namespace Dexterity.Login.BuiltInClients
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    }
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Phone
+                    },
+
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
             };
         }

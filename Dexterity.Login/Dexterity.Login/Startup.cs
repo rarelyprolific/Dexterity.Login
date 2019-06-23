@@ -81,6 +81,8 @@ namespace Dexterity.Login
                     // This determines whether tokens are retained in the HttpContext after authorisation. The default is false and, generally, this is what we want but
                     // if we do retain tokens we can get at them for diagnostic purposes via the HttpContext.GetTokenAsync() method.
                     options.SaveTokens = true;
+
+                    options.Scope.Add(IdentityServerConstants.StandardScopes.Phone);
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

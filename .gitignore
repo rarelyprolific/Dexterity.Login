@@ -328,3 +328,12 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+
+
+# **********************************
+# **** SPECIFIC TO THIS PROJECT ****
+# **********************************
+
+# Identity Server 4 development signing key
+tempkey.rsa

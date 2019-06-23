@@ -6,11 +6,35 @@
 
 <div class="text-left">
     <p>This is the profile page. This will show your user details and allow you to amend them. To get here we must be logged into the system.</p>
+</div>
 
+<div class="text-left">
     <h3>Claims</h3>
     @foreach (KeyValuePair<string, string> claim in Model.Claims)
     {
         <span><strong>@claim.Key</strong> - @claim.Value</span>
         <br />
     }
+</div>
+
+<br />
+
+<div class="alert alert-warning" role="alert">
+    <h4>Warning</h4>
+    <p>
+        These tokens are here while I'm figuring out how this stuff works and verifying it works as intended. We definately do not want to expose
+        confidential tokens to the client in the final solution.
+
+        These tokens should only be available if we declare <strong>services.AddAuthentication</strong> with <strong>options.SaveTokens = true;</strong>
+    </p>
+</div>
+
+<div class="text-left">
+    <h3>Access Token</h3>
+    <p>@(String.IsNullOrWhiteSpace(Model.AccessToken)? "Access Token does not exist or is not exposed to the client" : Model.AccessToken)</p>
+</div>
+
+<div class="text-left">
+    <h3>ID Token</h3>
+    <p>@(String.IsNullOrWhiteSpace(Model.IdToken) ? "ID Token does not exist or is not exposed to the client" : Model.IdToken)</p>
 </div>

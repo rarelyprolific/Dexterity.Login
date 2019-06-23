@@ -73,7 +73,14 @@ namespace Dexterity.Login
 
                     options.Authority = "https://localhost:5001";
                     options.ClientId = "initialclient";
-                    //options.ResponseType = "code id_token";
+                    options.ClientSecret = "initialclientsecret";
+
+                    // This represents the Hybrid flow (for confidential clients who can keep an access token secret) (AllowedGrantTypes = GrantTypes.Hybrid)
+                    options.ResponseType = "code id_token";
+
+                    // This determines whether tokens are retained in the HttpContext after authorisation. The default is false and, generally, this is what we want but
+                    // if we do retain tokens we can get at them for diagnostic purposes via the HttpContext.GetTokenAsync() method.
+                    options.SaveTokens = true;
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

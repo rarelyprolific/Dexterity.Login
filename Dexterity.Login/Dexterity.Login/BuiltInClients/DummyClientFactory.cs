@@ -18,7 +18,7 @@ namespace Dexterity.Login.BuiltInClients
                     ClientId = "initialclient",
                     ClientSecrets = { new Secret("initialclientsecret".Sha256())},
 
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Hybrid,
 
                     RedirectUris = { "https://localhost:5001/signin-oidc" },
                     RequireConsent = false,

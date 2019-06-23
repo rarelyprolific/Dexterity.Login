@@ -23,6 +23,9 @@ namespace Dexterity.Login.Controllers
                 vm.Claims.Add(claim.Type, claim.Value);
             }
 
+            vm.AccessToken = await HttpContext.GetTokenAsync("access_token");
+            vm.IdToken = await HttpContext.GetTokenAsync("id_token");
+
             return View(vm);
         }
     }

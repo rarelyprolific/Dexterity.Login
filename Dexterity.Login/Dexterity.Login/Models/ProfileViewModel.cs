@@ -7,6 +7,9 @@ namespace Dexterity.Login.Models
 {
     public class ProfileViewModel
     {
-        public Dictionary<string, string> Claims;
+        public Dictionary<string, string> Claims { get; set; }
+
+        public string AccessToken { get; set; }
+        public string IdToken { get; set; }
     }
 }

@@ -12,3 +12,4 @@ The intention is to develop a simple "login" site which will allow users to regi
 * Develop new minimal "register new user" and "login and logout user" pages based on what I've learnt so far.
 * Start to phrase out the scaffolded bits of ASP.NET Core Identity and Identity Server 4 quickstart UIs when I'm confident I know what they did and that I don't need them anymore.
 * Create another application or service to secure against this IDP as a client and verify it works.
+* Split into Dexterity.Authentication and Dexterity.Authorization sites.
